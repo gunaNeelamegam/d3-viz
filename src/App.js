@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { select, selection, range } from 'd3';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const svg = select('body')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height);
+
+  const rect = svg
+    .append("g")
+    .selectAll("rect")
+    .data(range(100))
+    .join('rect')
+    .attr("width", 10)
+    .attr("height", height)
+    .attr("fill", "black")
+    .attr("x", (d) => d * 20)
+    .attr("mask", "url(#mask-1)")
+
+
+  //createing the horizontal line for createing the soul lette peace
+
+  const anthor_rect = svg
+    .append("g")
+    .selectAll("rect")
+    .data(range(100))
+    .join('rect')
+    .attr("width", width)
+    .attr("height", 10)
+    .attr("fill", "black")
+    .attr("y", (d) => d * 20)
+    .attr("mask","url(#mask-2)")
+
+  //studing about the masking concept 
+
+  const mask = svg.append("mask").attr("id", "mask-1")
+  mask.append("circle").attr("cx", `${width / 2}`)
+    .attr("cy", `${height / 2}`)
+    .attr("r", 200)
+    .attr("fill", "white");
+
+  const mask2 = svg.append("mask").attr("id", "mask-2")
+  mask2.append("rect").attr("width", width).attr("height", height).attr("fill", "white")
+  mask2.append("circle").attr("cx", width / 2).attr("cy", height / 2).attr("r", 200).attr("fill","black")
 }
 
-export default App;
+export default App
